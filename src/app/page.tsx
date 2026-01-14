@@ -18,7 +18,7 @@ export default function HomePage() {
             alt="profile picture"
             width={64}
             height={64}
-            className="h-12 w-12 rounded-full border border-gray-800 md:h-12 md:w-12"
+            className="h-12 w-12 rounded-full border border-accent md:h-12 md:w-12"
           />
           <h1
             className={`text-left text-xl md:text-2xl ${instrument.className}`}
@@ -56,7 +56,7 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="my-8 inline-block h-[2px] bg-gray-800 px-16"></div>
+        <div className="my-8 inline-block h-[2px] bg-accent px-16"></div>
       </div>
     </div>
   );

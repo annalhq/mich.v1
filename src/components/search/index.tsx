@@ -19,6 +19,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import cn from "clsx";
+import { Search, X } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { useSearch } from "@/lib/search";
@@ -26,38 +27,6 @@ import type { SearchResult } from "@/lib/search";
 import { groupResults } from "@/lib/search";
 
 const INPUTS = new Set(["INPUT", "SELECT", "BUTTON", "TEXTAREA"]);
-
-function SearchIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      {...props}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-      />
-    </svg>
-  );
-}
-
-function CloseIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" {...props}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M6 6l8 8M6 14 14 6"
-      />
-    </svg>
-  );
-}
 
 export default function SearchBar() {
   const { state, inputRef, handleSelect, handleFocus, handleChange } =
@@ -69,9 +38,6 @@ export default function SearchBar() {
     typeof navigator !== "undefined"
       ? navigator.userAgent.includes("Mac")
       : false;
-
-  // ah! looks atrocious in the input text bar
-  // const HOTKEY = isMac ? "⌘K" : "Ctrl K";
 
   useHotkeys(
     isMac ? "meta+k" : "ctrl+k",
@@ -100,15 +66,10 @@ export default function SearchBar() {
   );
 
   useEffect(() => {
-    if (isOpen) {
-      requestAnimationFrame(() => searchInputRef.current?.select());
-    }
+    if (isOpen) requestAnimationFrame(() => searchInputRef.current?.select());
   }, [isOpen]);
 
-  const handleFocusInput: FocusEventHandler = (event) => {
-    handleFocus(event);
-  };
-
+  const handleFocusInput: FocusEventHandler = (event) => handleFocus(event);
   const handleQueryChange = (event: SyntheticEvent<HTMLInputElement>) =>
     handleChange(event);
 
@@ -118,10 +79,17 @@ export default function SearchBar() {
         type="button"
         aria-label="Open search"
         onClick={() => setIsOpen(true)}
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className={cn(
+          "flex h-9 w-9 items-center justify-center rounded-[--radius]",
+          "text-[--muted]",
+          "transition-colors",
+          "hover:bg-[--selection-background] hover:text-[--fg]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--selection-background]"
+        )}
       >
-        <SearchIcon className="h-5 w-5" />
+        <Search className="h-5 w-5" />
       </button>
+
       <Transition show={isOpen} as={Fragment}>
         <Dialog
           onClose={() => setIsOpen(false)}
@@ -137,7 +105,8 @@ export default function SearchBar() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
+            {/* No hardcoded overlay colors; rely on bg + opacity only */}
+            <div className="bg-[--bg]/80 fixed inset-0 backdrop-blur-sm" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto p-4 md:p-6">
@@ -153,12 +122,15 @@ export default function SearchBar() {
               <Dialog.Panel
                 className={cn(
                   "mx-auto w-full max-w-xl",
-                  "rounded-xl border border-gray-200/70 dark:border-neutral-700/70",
-                  "bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-neutral-900/90 supports-[backdrop-filter]:dark:bg-neutral-900/60",
-                  "shadow-lg ring-1 ring-black/5 dark:ring-white/5"
+                  "rounded-[calc(var(--radius)+0.25rem)]",
+                  "border border-[--border-accent]",
+                  "bg-[--bg]",
+                  "text-[--fg]",
+                  "shadow-lg"
                 )}
               >
                 <Dialog.Title className="sr-only">Search</Dialog.Title>
+
                 <Combobox
                   onChange={(value: SearchResult) => {
                     handleSelect(value);
@@ -166,7 +138,13 @@ export default function SearchBar() {
                   }}
                 >
                   <div className="relative flex items-center px-3 pt-3">
-                    <SearchIcon className="pointer-events-none absolute left-5 h-5 w-5 text-gray-400" />
+                    <Search
+                      className={cn(
+                        "pointer-events-none absolute left-5 h-5 w-5",
+                        "text-[--muted]"
+                      )}
+                    />
+
                     <ComboboxInput
                       spellCheck={false}
                       autoComplete="off"
@@ -182,11 +160,12 @@ export default function SearchBar() {
                         }
                       }}
                       className={cn(
-                        "w-full rounded-md bg-white/70 dark:bg-neutral-800/70",
-                        "py-2 pl-10 pr-24 text-base md:text-sm",
-                        "placeholder:text-gray-500 dark:placeholder:text-gray-500",
-                        "border border-gray-200 dark:border-neutral-700",
-                        "focus:border-[--selection-background] focus:outline-none focus:ring-2 focus:ring-[--selection-background]",
+                        "w-full rounded-[--radius]",
+                        "bg-transparent",
+                        "py-2 pl-10 pr-12 text-base md:text-sm",
+                        "text-[--fg] placeholder:text-[--muted]",
+                        "border border-[--border-accent]",
+                        "focus:outline-none focus:ring-2 focus:ring-[--selection-background]",
                         "transition-shadow",
                         "[&::-webkit-search-cancel-button]:appearance-none"
                       )}
@@ -196,14 +175,20 @@ export default function SearchBar() {
                       value={state.query}
                       placeholder="Type to search..."
                     />
+
                     <div className="absolute right-4 flex items-center gap-2">
                       <button
                         type="button"
                         aria-label="Close search"
                         onClick={() => setIsOpen(false)}
-                        className="focus-visible:ring-primary-500/50 rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:ring-2 dark:hover:bg-neutral-800 dark:hover:text-gray-200"
+                        className={cn(
+                          "rounded-[--radius] p-1",
+                          "text-[--muted]",
+                          "hover:bg-[--selection-background] hover:text-[--fg]",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[--selection-background]"
+                        )}
                       >
-                        <CloseIcon className="h-4 w-4" />
+                        <X className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
@@ -212,19 +197,19 @@ export default function SearchBar() {
                     static
                     className={cn(
                       "mt-3 max-h-[min(60vh,420px)] scroll-py-2 overflow-y-auto",
-                      "border-t border-gray-200/70 dark:border-neutral-700/70",
+                      "border-t border-[--border-accent]",
                       "px-1.5 py-2",
-                      "text-gray-900 dark:text-gray-200",
-                      "empty:py-8 empty:text-center empty:text-sm empty:text-gray-500 dark:empty:text-gray-500"
+                      "text-[--fg]",
+                      "empty:py-8 empty:text-center empty:text-sm empty:text-[--muted]"
                     )}
                   >
                     {state.error ? (
-                      <div className="px-4 py-2 text-sm text-red-600 dark:text-red-400">
+                      <div className="px-4 py-2 text-sm">
                         <b className="font-medium">Search failed:</b>{" "}
                         {String(state.error)}
                       </div>
                     ) : state.isLoading ? (
-                      <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                      <div className="px-4 py-2 text-sm text-[--muted]">
                         Loading…
                       </div>
                     ) : state.results.length > 0 ? (
@@ -245,18 +230,22 @@ export default function SearchBar() {
 
 function SearchResults({ results }: { results: SearchResult[] }) {
   const groupedResults = groupResults(results);
+
   return (
     <>
       {Object.entries(groupedResults).map(([section, sectionResults]) => (
         <div key={section}>
           <div
             className={cn(
-              "not-first:mt-6 mx-2.5 mb-2 select-none border-b border-black/10 px-2.5 pb-1.5 text-xs font-semibold uppercase text-gray-600 dark:border-white/20 dark:text-gray-300",
-              "contrast-more:border-gray-600 contrast-more:text-gray-900 contrast-more:dark:border-gray-50 contrast-more:dark:text-gray-50"
+              "not-first:mt-6 mx-2.5 mb-2 select-none",
+              "border-b border-[--md-border]",
+              "px-2.5 pb-1.5 text-xs font-semibold uppercase",
+              "text-[--muted]"
             )}
           >
             {section}
           </div>
+
           {sectionResults.map((result) => (
             <ComboboxOption
               key={result.id}
@@ -265,23 +254,22 @@ function SearchResults({ results }: { results: SearchResult[] }) {
               href={result.url}
               className={({ focus }) =>
                 cn(
-                  "mx-2.5 break-words rounded-md",
-                  "contrast-more:border",
+                  "mx-2.5 block scroll-m-12 break-words rounded-[--radius] px-2.5 py-2",
                   focus
-                    ? "text-primary-600 bg-primary-500/10 contrast-more:border-current"
-                    : "text-gray-800 contrast-more:border-transparent dark:text-gray-300",
-                  "block scroll-m-12 px-2.5 py-2"
+                    ? "bg-[--selection-background] text-[--fg]"
+                    : "text-[--fg]"
                 )
               }
             >
               <div className="text-base font-semibold leading-5">
                 {result.title}
               </div>
+
               {result.excerpt && (
                 <div
                   className={cn(
-                    "mt-1 text-sm leading-[1.35rem] text-gray-600 dark:text-gray-400 contrast-more:dark:text-gray-50",
-                    "[&_mark]:bg-[--selection-background] [&_mark]:text-[--selection-foreground]"
+                    "mt-1 text-sm leading-[1.35rem] text-[--muted]",
+                    "[&_mark]:bg-[--mark-background] [&_mark]:text-[--mark-foreground]"
                   )}
                   dangerouslySetInnerHTML={{ __html: result.excerpt }}
                 />

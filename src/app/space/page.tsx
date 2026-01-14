@@ -10,13 +10,14 @@ export default function SpacePage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-8">
-      <h1 className={`text-3xl font-medium ${instrument.className}`}>space</h1>
+      <h1
+        className={`text-center text-3xl leading-tight tracking-tighter sm:text-5xl ${instrument.className}`}
+      >
+        space
+      </h1>
       <div className="space-y-4 pt-1">
         {entries.map((entry) => (
-          <div
-            className="transform py-1 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-            key={entry.slug}
-          >
+          <div key={entry.slug}>
             <ContentCard
               title={entry.title}
               description={entry.description}

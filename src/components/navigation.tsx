@@ -19,7 +19,7 @@ export function Navigation() {
   return (
     <div className="py-6">
       <nav className="mx-auto w-full max-w-fit px-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border bg-card px-4 py-2 shadow-md">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-accent px-4 py-2">
           <Link
             href="/"
             className={cn(

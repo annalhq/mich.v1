@@ -25,12 +25,12 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="bg-card/95 hover:border-primary/50 group relative block rounded-lg border border-border p-5 shadow-md transition-all hover:bg-card hover:shadow-lg"
+      className="bg-card/95 group relative block rounded-lg border-2 border-accent p-5"
     >
       <article className="flex flex-col gap-3">
         {category && (
           <span className="bg-primary/10 inline-flex w-fit rounded-full px-2.5 py-0.5 text-xs font-medium text-primary">
-            {category}
+            {category}a
           </span>
         )}
 
