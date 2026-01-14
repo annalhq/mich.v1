@@ -23,8 +23,8 @@ export function Navigation() {
           <Link
             href="/"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
-              pathname === "/" ? "text-primary" : "text-foreground"
+              "text-sm font-medium transition-all duration-200 hover:text-[--slate-12]",
+              pathname === "/" ? "text-[--slate-12]" : "text-[--slate-11]"
             )}
           >
             ann
@@ -38,10 +38,10 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm transition-colors hover:text-primary",
+                  "text-sm transition-all duration-200 hover:text-[--slate-12]",
                   pathname === link.href
-                    ? "font-medium text-primary"
-                    : "text-muted-foreground"
+                    ? "scale-105 font-medium text-[--slate-12]"
+                    : "text-[--slate-11]"
                 )}
               >
                 {link.label}

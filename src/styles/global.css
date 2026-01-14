@@ -881,3 +881,18 @@ my custom components
 .footnotes ol li p a {
   z-index: 2;
 }
+
+/* Navigation icon styling */
+nav button,
+nav svg {
+  color: var(--slate-11);
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+nav button:hover,
+nav button:hover svg,
+nav a:hover svg {
+  color: var(--slate-12);
+}
