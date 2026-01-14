@@ -14,14 +14,14 @@ export default function HomePage() {
       <div className="w-full flex-col px-0 md:px-0 lg:px-0">
         <div className="flex items-center gap-4">
           <Image
-            src="/enso.jpeg"
+            src="/enso.png"
             alt="profile picture"
             width={64}
             height={64}
-            className="h-12 w-12 rounded-full border border-gray-700 md:h-12 md:w-12"
+            className="h-12 w-12 rounded-full border border-gray-800 md:h-12 md:w-12"
           />
           <h1
-            className={`text-left font-serif text-xl md:text-2xl ${instrument.className}`}
+            className={`text-left text-xl md:text-2xl ${instrument.className}`}
           >
             annalhq
           </h1>
