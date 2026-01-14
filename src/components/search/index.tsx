@@ -164,7 +164,6 @@ export default function SearchBar() {
                         "bg-transparent",
                         "py-2 pl-10 pr-12 text-base md:text-sm",
                         "text-[--fg] placeholder:text-[--muted]",
-                        "border border-[--border-accent]",
                         "focus:outline-none focus:ring-2 focus:ring-[--selection-background]",
                         "transition-shadow",
                         "[&::-webkit-search-cancel-button]:appearance-none"
