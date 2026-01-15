@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import * as FadeIn from "@/components/motion/staggers/fade";
 import Search from "@/components/search/index";
 import { ThemeToggle } from "@/components/theme/toggle";
 import { cn } from "@/lib/utils";
@@ -16,41 +17,45 @@ export function Navigation() {
   ];
 
   return (
-    <div className="py-6">
-      <nav className="mx-auto w-full max-w-fit px-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-accent px-4 py-2">
-          <Link
-            href="/"
-            className={cn(
-              "text-sm font-medium transition-all duration-200 hover:text-[--slate-12]",
-              pathname === "/" ? "text-[--slate-12]" : "text-[--slate-11]"
-            )}
-          >
-            ann
-          </Link>
-
-          <div className="hidden h-4 w-px bg-border sm:block" />
-
-          <div className="flex flex-wrap items-center gap-4">
-            {mainLinks.map((link) => (
+    <FadeIn.Container>
+      <FadeIn.Item>
+        <div className="py-6">
+          <nav className="mx-auto w-full max-w-fit px-4 sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-accent px-4 py-2">
               <Link
-                key={link.href}
-                href={link.href}
+                href="/"
                 className={cn(
-                  "text-sm transition-all duration-200 hover:text-[--slate-12]",
-                  pathname === link.href
-                    ? "scale-105 font-medium text-[--slate-12]"
-                    : "text-[--slate-11]"
+                  "text-sm font-medium transition-all duration-200 hover:text-[--slate-12]",
+                  pathname === "/" ? "text-[--slate-12]" : "text-[--slate-11]"
                 )}
               >
-                {link.label}
+                ann
               </Link>
-            ))}
-            <Search />
-            <ThemeToggle />
-          </div>
+
+              <div className="hidden h-4 w-px bg-border sm:block" />
+
+              <div className="flex flex-wrap items-center gap-4">
+                {mainLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "text-sm transition-all duration-200 hover:text-[--slate-12]",
+                      pathname === link.href
+                        ? "scale-105 font-medium text-[--slate-12]"
+                        : "text-[--slate-11]"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Search />
+                <ThemeToggle />
+              </div>
+            </div>
+          </nav>
         </div>
-      </nav>
-    </div>
+      </FadeIn.Item>
+    </FadeIn.Container>
   );
 }
