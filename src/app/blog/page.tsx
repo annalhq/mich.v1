@@ -1,4 +1,4 @@
-import { ContentCard } from "@/components/content-card";
+import { ContentCard } from "@/components/card/content-card";
 import { instrument } from "@/lib/custom-font";
 import { blogMetadata } from "@/lib/metadata";
 import { getBlogPosts } from "@/mdx/utils/mdx";

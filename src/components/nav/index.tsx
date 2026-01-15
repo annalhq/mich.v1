@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Search from "@/components/search/index";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme/toggle";
 import { cn } from "@/lib/utils";
 
 export function Navigation() {

@@ -1,4 +1,4 @@
-import { ContentCard } from "@/components/content-card";
+import { ContentCard } from "@/components/card/content-card";
 import { instrument } from "@/lib/custom-font";
 import { spaceMetadata } from "@/lib/metadata";
 import { getSpaceEntries } from "@/mdx/utils/mdx";
