@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 
-import { Navigation } from "./navigation";
+import { Navigation } from "@/components/nav";
 
 interface LayoutProps {
   children: ReactNode;
