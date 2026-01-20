@@ -16,6 +16,7 @@ export interface Post {
   slug: string;
   content: string;
   readingTime: string;
+  image?: string;
   meta?: MetaConfig;
 }
 
@@ -35,6 +36,7 @@ function readMDXFile(filePath: string): Omit<Post, "meta"> {
     slug: path.basename(filePath, ".mdx"),
     content,
     readingTime: readingTimeText,
+    image: data.image,
   };
 }
 

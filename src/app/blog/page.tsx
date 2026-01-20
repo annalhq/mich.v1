@@ -27,6 +27,7 @@ export default function BlogPage() {
                   href={`/blog/${post.slug}`}
                   date={post.date}
                   readingTime={post.readingTime}
+                  image={post.image}
                 />
               </div>
             ))}
